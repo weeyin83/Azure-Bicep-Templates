@@ -1,7 +1,7 @@
 # This workflow takes the Bicep files within the Bicep folder and zips them together.  Then pushes/uploads them to the Octopus Instance specified. 
 # Within the repo's secrets are the information relating to the Octopus Instance URL, API key and Space. 
 
-name: OctoPetShopBicepBuild
+name: StorageBicepTemplate
 on:
   push:
     branches:
@@ -25,7 +25,7 @@ jobs:
 
 
 
-    
+
     # We take the files inside the Bicep folder and zip them together
     - name: Zip Bicep files
       run: octo pack --id="OctoBicepFiles" --format="zip" --version=${{ github.run_number }} --basePath=${{ github.workspace }}\Bicep\ --outFolder=${{ github.workspace }}\output
