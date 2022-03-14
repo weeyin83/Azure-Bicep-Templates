@@ -10,29 +10,20 @@ on:
     paths:
     - Storage-Template
 
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "Bicep Build"
-  BicepBuild:
+  # This workflow contains a single job called "build"
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # This first step takes the code within the Repo and pulls it into the workspace
-    - uses: actions/checkout@v2
-    # We install the latest version of Octopus CLI
-    - uses: OctopusDeploy/install-octopus-cli-action@v1.1.8
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Azure CLI Action
-      uses: Azure/cli@v1
-      with:
-        inlineScript: |
-            az bicep build --file Storage-Template/main.bicep --outfile ./main.json
-
-
-    # We take the files inside the Bicep folder and zip them together
-    - name: Zip Bicep files
-      run: octo pack --id="OctoBicepFiles" --format="zip" --version=${{ github.run_number }} --basePath=${{ github.workspace }}\Bicep\ --outFolder=${{ github.workspace }}\output
-    # We take the zip file we created and push them to the Octopus Deploy server instance
-    - name: Push Bicep files
-      run: octo push --package="${{ github.workspace }}\output\OctoBicepFiles.${{ github.run_number }}.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
+      - name: Build
+        uses: Azure/cli@v1
+        with:
+          inlineScript: |
+            az bicep build --file main.bicep --outfile ./main.json
