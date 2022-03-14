@@ -31,13 +31,11 @@ jobs:
         uses: Azure/bicep-build-action@v1.0.0
         with:
             bicepFilePath: 'Storage-Template/main.bicep'
-    
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+            
+      # We take the files inside the Bicep folder and zip them together
+      - name: Zip Bicep files
+        run: octo pack --id="OctoBicepFiles" --format="zip" --version=${{ github.run_number }} --basePath=${{ github.workspace }}\Bicep\ --outFolder=${{ github.workspace }}\output
+      
+      # We take the zip file we created and push them to the Octopus Deploy server instance
+      - name: Push Bicep files
+        run: octo push --package="${{ github.workspace }}\output\OctoBicepFiles.${{ github.run_number }}.zip" --server="${{ secrets.OCTOPUSSERVERURL }}" --apiKey="${{ secrets.OCTOPUSSERVERAPIKEY }}" --space="${{ secrets.OCTOPUSSERVER_SPACE }}"
