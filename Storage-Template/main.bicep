@@ -23,6 +23,8 @@ param ownerTag string = 'Sarah'
 @description('The purpose of this resource for the Azure Tag declaration')
 param purposeTag string = 'Demo'
 
+param sarahtest string = 'Wow'
+
 resource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   name: storageAccountName
   location: location
