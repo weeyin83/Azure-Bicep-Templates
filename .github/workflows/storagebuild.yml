@@ -27,7 +27,7 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-            az bicep build –file Storage-Template/main.bicep –outfile ./main.json
+            az bicep build --file Storage-Template/main.bicep --outfile ./main.json
 
 
     # We take the files inside the Bicep folder and zip them together
