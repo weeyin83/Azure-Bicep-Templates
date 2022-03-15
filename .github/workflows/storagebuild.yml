@@ -32,14 +32,6 @@ jobs:
         with:
             bicepFilePath: 'Storage-Template/main.bicep'
             
-      - name: Validate Bicep
-        uses: Azure/cli@v1
-        with:
-          inlineScript: |
-            az deployment group validate \
-              --resource-group ${{ secrets.Azure_Environment_ResourceGroup_Name }}\
-              --template-file 'Storage-Template/main.bicep' \
-              --parameters storageAccountName=${{ secrets.AZURE_STORAGEACCOUNT_NAME }}
             
       # We take the files inside the Bicep folder and zip them together
       - name: Zip Bicep files
