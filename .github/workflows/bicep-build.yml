@@ -12,6 +12,7 @@ on:
   
 env:
   resourceGroupName: TemplateDeploymentRG
+  resourceGroupLocation: uksouth
   bicepfilePath: ./Storage-Template/main.bicep
 
 
@@ -26,13 +27,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
-      # Logs in to Azure
-      - name: Azure Login
-        uses: Azure/login@v1.4.3
-        with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
+            
       # Builds the Bicep template
       - name: bicep-build-output
         uses: Azure/bicep-build-action@v1.0.1
@@ -57,6 +52,14 @@ jobs:
       uses: Azure/login@v1.4.3
       with:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Az CLI Create Resource Group
+      uses: Azure/CLI@v1
+      with:
+        inlineScript: |
+          az group create \
+          --name ${{ env.resourceGroupName }} \
+          --location ${{ env.resourceGroupLocation }}
 
     - name: Deploy bicep to Azure
       uses: Azure/cli@v1
