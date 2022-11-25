@@ -12,7 +12,7 @@ on:
   
 env:
   resourceGroupName: try
-  bicepfilePath: main.bicep
+  bicepfilePath: ./Storage-Template/main.bicep
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -26,16 +26,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+      
+      # Logs in to Azure
       - name: Azure Login
         uses: Azure/login@v1.4.3
         with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
-            
+      
+      # Builds the Bicep template
       - name: bicep-build-output
         uses: Azure/bicep-build-action@v1.0.1
         with:
-            bicepFilePath: 'Storage-Template/main.bicep'
+            bicepFilePath: ${{  env.bicepfilePath }}
             outputFilePath: ./main.json
       
       - name: Upload a Build Artifact
@@ -43,6 +45,7 @@ jobs:
         with:
           path: ./main.json
 
+  # Deploys the template to Azure
   deploy: 
    runs-on: ubuntu-latest
    needs: [build]
@@ -60,6 +63,6 @@ jobs:
       with:
         inlineScript: |
           az deployment group create \
-          --template-file ${{env.bicepfilePath }} \
+          --template-file ${{  env.bicepfilePath }} \
           --resource-group ${{ env.resourceGroupName }}
 
