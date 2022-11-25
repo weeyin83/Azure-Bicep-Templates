@@ -56,7 +56,7 @@ jobs:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy bicep to Azure
-      uses: Azure/cli@v3.1.1
+      uses: Azure/cli@v1
       with:
         inlineScript: |
           az deployment group create \
