@@ -23,7 +23,7 @@ param ownerTag string = 'Sarah'
 @description('The purpose of this resource for the Azure Tag declaration')
 param purposeTag string = 'Demo'
 
-resource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageAccountName
   location: location
   tags: {
@@ -36,5 +36,6 @@ resource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   kind: 'StorageV2'
   properties: {}
 }
+
 output storageAccountName string = storageAccountName
 output storageAccountId string = storage.id
