@@ -11,7 +11,7 @@ on:
     - main
   
 env:
-  resourceGroupName: BicepDeploymentRG
+  resourceGroupName: try
   bicepfilePath: main.bicep
 
 
