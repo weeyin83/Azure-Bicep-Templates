@@ -11,7 +11,7 @@ on:
     - main
   
 env:
-  resourceGroupName: try
+  resourceGroupName: TemplateDeploymentRG
   bicepfilePath: ./Storage-Template/main.bicep
 
 
