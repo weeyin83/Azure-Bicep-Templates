@@ -1,6 +1,6 @@
 # This workflow 
 
-name: Bicep-Template_Build
+name: Bicep-Template-Build-Incorrect
 on:
   workflow_dispatch:
   push:
@@ -13,7 +13,7 @@ on:
 env:
   resourceGroupName: TemplateDeploymentRG
   resourceGroupLocation: uksouth
-  bicepfilePath: ./Storage-Templateincorrect.bicep
+  bicepfilePath: ./Storage-Template/incorrect.bicep
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
